@@ -1,19 +1,22 @@
 .page-footer {
-    bottom: 0; 
-    left: 0;
-    width: 100%; 
-    background-color: transparent; 
-    padding: 20px 0; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    font-size: 14px;
-    color: #999999; 
-    z-index: 10; 
+    padding: 10px 20px;
+    background-color: #000000;
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
 }
 
+
 .footer-content-wrapper {
-    max-width: 1200px; 
+    max-width: 100%; 
     margin: 0 auto; 
     padding: 0 20px; 
+    height: 100%;
+    overflow-y: auto;
 }
 
 .separator {
@@ -22,7 +25,7 @@
 }
 
 .footer-link {
-    color: #999999;
+    color: #FFFFFF;
     text-decoration: none;
     transition: color 0.2s;
 }
