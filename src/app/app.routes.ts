@@ -37,6 +37,14 @@ export const routes: Routes = [
       {
         path: 'home',
         loadComponent: () => import('./home/home').then(m => m.Home)
+      },
+      {
+        path: 'content',
+        loadComponent: () => import('./content/content').then(m => m.Content)
+      },
+      {
+        path: 'activity-log',
+        loadComponent: () => import('./activity-log/activity-log').then(m => m.ActivityLog)
       }
     ]
   },

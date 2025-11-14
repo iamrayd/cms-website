@@ -2,9 +2,9 @@
   <!-- Top Header: Tabs + Search + User -->
   <header class="topbar">
     <div class="tabs">
-      <a [class.active]="activeTab==='pages'" (click)="setTab('pages')">Pages</a> |
-      <a [class.active]="activeTab==='posts'" (click)="setTab('posts')">Posts</a> |
-      <a [class.active]="activeTab==='banners'" (click)="setTab('banners')">Banners</a>
+      <a [class.active]="activeTab === 'pages'" (click)="setTab('pages')">Pages</a> |
+      <a [class.active]="activeTab === 'posts'" (click)="setTab('posts')">Posts</a> |
+      <a [class.active]="activeTab === 'banners'" (click)="setTab('banners')">Banners</a>
     </div>
 
     <div class="search">
@@ -18,7 +18,7 @@
     <div class="user">
       <img src="https://via.placeholder.com/40" alt="User" />
       <div>
-        <strong>Galvez James</strong><br>
+        <strong>Galvez James</strong><br />
         <small>galvez@gmail.com</small>
       </div>
     </div>
@@ -33,8 +33,15 @@
           <h3>{{ item.title }}</h3>
           <p>{{ item.description }}</p>
           <div class="tags">
-            <span *ngFor="let tag of item.tags" class="tag"
-              [ngClass]="{'blue': tag==='&lt;h1&gt;', 'green': tag==='&lt;p&gt;', 'red': tag==='&lt;a&gt;'}">
+            <span
+              *ngFor="let tag of item.tags"
+              class="tag"
+              [ngClass]="{
+                blue: tag === '&lt;h1&gt;',
+                green: tag === '&lt;p&gt;',
+                red: tag === '&lt;a&gt;'
+              }"
+            >
               {{ tag }}
             </span>
           </div>
@@ -42,12 +49,14 @@
       </div>
 
       <div class="card-bottom">
-        <span class="status"
+        <span
+          class="status"
           [ngClass]="{
-            'published': item.status==='Published',
-            'draft': item.status==='Draft',
-            'archived': item.status==='Archived'
-          }">
+            published: item.status === 'Published',
+            draft: item.status === 'Draft',
+            archived: item.status === 'Archived'
+          }"
+        >
           ● {{ item.status }}
         </span>
         <div class="actions">

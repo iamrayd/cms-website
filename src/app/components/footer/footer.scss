@@ -4,8 +4,8 @@
   align-items: center;
   text-align: center;
   padding: 1.5rem 1.5rem;
-  background-color: #FFF;
-  color: #000;
+  background-color: #000000fd;
+  color: #FFF;
   width: 100%;
   box-sizing: border-box;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -29,7 +29,7 @@
 .copyright-text {
   margin: 0;
   font-size: 0.875rem;
-  color: #000;
+  color: #fff;
   font-weight: 400;
 }
 
@@ -43,12 +43,12 @@
 }
 
 .separator {
-  color: #000;
+  color: #FFF;
   user-select: none;
 }
 
 .footer-link {
-  color: #000;
+  color: #FFF;
   text-decoration: none;
   transition: all 0.2s ease;
   font-weight: 400;

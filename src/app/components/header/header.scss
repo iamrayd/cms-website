@@ -1,5 +1,5 @@
 header {
-  padding: 1rem 1.5rem;
+  padding: 1rem 3rem;
   background-color: #000000;
   color: white;
   width: 100%;
@@ -35,12 +35,10 @@ h1 {
   justify-content: center;
   width: 60px;
   height: 60px;
-  border: 2px solid #fff;
   padding: 0.25rem;
   box-sizing: border-box;
   flex-shrink: 0;
   border-radius: 4px;
-  background-color: rgba(255, 255, 255, 0.05);
   transition: all 0.2s ease;
 
   &:hover {
