@@ -1,10 +1,11 @@
 <div class="main-layout">
-  <!-- Header with profile -->
   <app-header [showProfile]="true" />
 
   <div class="layout-container">
-    <!-- Sidebar -->
-    <aside class="sidebar" [class.open]="sidebarOpen">
+    <aside
+      class="sidebar"
+      [ngClass]="{ 'sidebar-collapsed': isDesktopCollapsed, open: sidebarOpen }"
+    >
       <nav class="sidebar-nav">
         <a routerLink="/home" routerLinkActive="active" class="nav-item">
           <svg
@@ -18,7 +19,7 @@
               d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"
             />
           </svg>
-          <span>Home</span>
+          <span class="nav-text">Home</span>
         </a>
 
         <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
@@ -37,15 +38,58 @@
               d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z"
             />
           </svg>
-          <span>Dashboard</span>
+          <span class="nav-text">Dashboard</span>
         </a>
 
         <!-- Add more navigation items as needed -->
       </nav>
+
+      <!-- NEW: Desktop Toggle Button -->
+      <button (click)="toggleDesktopSidebar()" class="sidebar-toggle-btn">
+        <svg
+          *ngIf="!isDesktopCollapsed"
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-chevron-double-left"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+          />
+          <path
+            fill-rule="evenodd"
+            d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+          />
+        </svg>
+        <svg
+          *ngIf="isDesktopCollapsed"
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-chevron-double-right"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"
+          />
+          <path
+            fill-rule="evenodd"
+            d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"
+          />
+        </svg>
+      </button>
     </aside>
 
-    <!-- Main Content Area -->
-    <div class="content-wrapper">
+    <!-- 
+      Main Content Area:
+      - Added [ngClass] to handle content margin shift.
+    -->
+    <div class="content-wrapper" [ngClass]="{ 'content-expanded': isDesktopCollapsed }">
       <main class="main-content">
         <router-outlet />
       </main>
