@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 export interface Widget {
@@ -10,8 +11,9 @@ export interface Widget {
 @Component({
   selector: 'app-widget',
   standalone: true,
-  templateUrl: './widget.html',
-  styleUrls: ['./widget.scss']
+  imports:[CommonModule],
+  templateUrl: './widgets.html',
+  styleUrls: ['./widgets.scss']
 })
 export class WidgetComponent {
   @Input() data!: Widget; // <-- needed for [data] binding

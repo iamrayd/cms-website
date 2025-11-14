@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Widget, WidgetComponent } from './widgets/widget';
+import { Widget } from './widgets/widget.model';
+import { WidgetComponent } from './widgets/widgets';
+
+
 
 @Component({
   selector: 'app-home',
