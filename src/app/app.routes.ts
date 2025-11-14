@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth-guard';
+import { DashboardComponent } from './componnents/dashboard/dashboard.components';
 
 export const routes: Routes = [
   // Auth routes (signin, signup) - using AuthLayoutComponent
@@ -37,7 +38,8 @@ export const routes: Routes = [
       {
         path: 'home',
         loadComponent: () => import('./home/home').then(m => m.Home)
-      }
+      },
+      { path: 'dashboard', component: DashboardComponent }
     ]
   },
   
