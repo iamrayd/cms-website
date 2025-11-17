@@ -38,10 +38,26 @@ export const routes: Routes = [
         path: 'home',
         loadComponent: () => import('./home/home').then(m => m.Home)
       },
-{
+      {
         path: 'content',
-        loadComponent: () => import('./content/content').then(m => m.Content)
-      },
+        loadComponent: () => import('./content/content').then(m => m.Content),
+        children: [
+          { path: '', redirectTo: 'pages', pathMatch: 'full' },
+          {
+            path: 'pages',
+            loadComponent: () => import('./content/pages/pages').then(m => m.PagesComponent)
+          },
+          {
+            path: 'posts',
+            loadComponent: () => import('./content/posts/post').then(m => m.PostsComponent)
+          },
+          {
+            path: 'banners',
+            loadComponent: () => import('./content/banners/banner').then(m => m.BannersComponent)
+    }
+  ]
+},
+
       {
         path: 'activity-log',
         loadComponent: () => import('./activity-log/activity-log').then(m => m.ActivityLog)

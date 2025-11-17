@@ -1,0 +1,96 @@
+.pages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.page-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .slug {
+    font-size: 13px;
+    color: #888;
+  }
+
+  .description {
+    font-size: 13px;
+    color: #555;
+    min-height: 40px;
+  }
+}
+
+.thumbnail {
+  height: 120px;
+  border-radius: 12px;
+  background: #eee;
+  margin-bottom: 8px;
+}
+
+.tags {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+
+  .tag {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: #e5e5e5;
+  }
+}
+
+.footer {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #f0f0f0;
+
+  &.published {
+    background: #d1fae5;
+    color: #047857;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+
+  .btn-outline,
+  .btn-dark {
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .btn-outline {
+    background: #fff;
+    border: 1px solid #ddd;
+  }
+
+  .btn-dark {
+    background: #000;
+    color: #fff;
+  }
+}
