@@ -1,27 +1,37 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using ProjectCms.Api.Models;
+using ProjectCms.Models;
 
-
-// or ProjectCms.Api.Models, depende unsay naa nimo
-
-using ProjectCms.Api.Services;
-using ProjectCms.Models;      // MongoDbSettings
-
-namespace project_cms.services
+namespace ProjectCms.Api.Services
 {
+    public interface IActivityLogService
+    {
+        Task LogAsync(
+            string userName,
+            string action,
+            string contentType,
+            string contentTitle,
+            string contentId,
+            string status = "Success"
+        );
+
+        Task<List<ActivityLog>> GetLatestAsync(int take = 50, string? contentType = null);
+    }
+
     public class ActivityLogService : IActivityLogService
     {
         private readonly IMongoCollection<ActivityLog> _collection;
 
         public ActivityLogService(IOptions<MongoDbSettings> mongoSettings)
         {
-            // same pattern as PageService/PostService
             var client = new MongoClient(mongoSettings.Value.ConnectionString);
-            var database = client.GetDatabase(mongoSettings.Value.DatabaseName);
-            _collection = database.GetCollection<ActivityLog>("ActivityLogs");
+            var db = client.GetDatabase(mongoSettings.Value.DatabaseName);
+
+            _collection = db.GetCollection<ActivityLog>("ActivityLogs");
         }
 
+        // ⭐ FIXED: main logging function
         public async Task LogAsync(
             string userName,
             string action,
@@ -44,6 +54,7 @@ namespace project_cms.services
             await _collection.InsertOneAsync(log);
         }
 
+        // ⭐ FIXED: filtering + sorting
         public async Task<List<ActivityLog>> GetLatestAsync(int take = 50, string? contentType = null)
         {
             var filter = string.IsNullOrEmpty(contentType)

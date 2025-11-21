@@ -1,6 +1,7 @@
-using project_cms.services;
+using ProjectCms.Services;
 using ProjectCms.Api.Services;
 using ProjectCms.Models;
+using ProjectCms.Services;
 using ProjectCms.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,7 @@ builder.Services.AddSingleton<PostService>(); // Post Service
 builder.Services.AddSingleton<BannerService>(); //Banner Service
 builder.Services.AddHostedService<BannerExpiryWorker>(); //Banner Expirey
 builder.Services.AddSingleton<IActivityLogService, ActivityLogService>(); //Activity-log
+builder.Services.AddSingleton<ArchivedBannerService>(); //ArchivedBanner Service
 
 
 

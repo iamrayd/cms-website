@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectCms.Models;
 using ProjectCms.Services;
+using ProjectCms.Api.Services;   // ⭐ NEW
 
 namespace ProjectCms.Controllers
 {
@@ -9,15 +10,27 @@ namespace ProjectCms.Controllers
     public class BannersController : ControllerBase
     {
         private readonly BannerService _bannerService;
+        private readonly IActivityLogService _activityLogService;  // ⭐ NEW
 
-        public BannersController(BannerService bannerService)
+        // ⭐ UPDATED: inject IActivityLogService
+        public BannersController(BannerService bannerService, IActivityLogService activityLogService)
         {
             _bannerService = bannerService;
+            _activityLogService = activityLogService;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<Banner>>> Get() =>
             Ok(await _bannerService.GetAsync());
+
+        // ⭐ NEW: COUNT BANNERS
+        // GET: /api/Banners/count
+        [HttpGet("count")]
+        public async Task<ActionResult<int>> Count()
+        {
+            var banners = await _bannerService.GetAsync();
+            return Ok(banners.Count);
+        }
 
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<Banner>> Get(string id)
@@ -30,6 +43,17 @@ namespace ProjectCms.Controllers
         public async Task<ActionResult<Banner>> Post(Banner newBanner)
         {
             await _bannerService.CreateAsync(newBanner);
+
+            // ⭐ NEW: log create
+            await _activityLogService.LogAsync(
+                userName: "Admin",              // in future: actual logged-in user
+                action: "Created Banner",
+                contentType: "banner",
+                contentTitle: newBanner.Title,
+                contentId: newBanner.Id ?? string.Empty,
+                status: "Success"
+            );
+
             return CreatedAtAction(nameof(Get), new { id = newBanner.Id }, newBanner);
         }
 
@@ -41,6 +65,17 @@ namespace ProjectCms.Controllers
 
             updated.Id = id;
             await _bannerService.UpdateAsync(id, updated);
+
+            // ⭐ NEW: log update
+            await _activityLogService.LogAsync(
+                userName: "Admin",
+                action: "Updated Banner",
+                contentType: "banner",
+                contentTitle: updated.Title,
+                contentId: id,
+                status: "Success"
+            );
+
             return NoContent();
         }
 
@@ -51,6 +86,17 @@ namespace ProjectCms.Controllers
             if (existing is null) return NotFound();
 
             await _bannerService.RemoveAsync(id);
+
+            // ⭐ NEW: log delete
+            await _activityLogService.LogAsync(
+                userName: "Admin",
+                action: "Deleted Banner",
+                contentType: "banner",
+                contentTitle: existing.Title,
+                contentId: id,
+                status: "Success"
+            );
+
             return NoContent();
         }
     }

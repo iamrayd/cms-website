@@ -39,6 +39,17 @@ namespace ProjectCms.Controllers
         }
 
         // ----------------------------
+        // COUNT PAGES
+        // GET: /api/Pages/count
+        // ----------------------------
+        [HttpGet("count")]
+        public async Task<ActionResult<int>> Count()
+        {
+            var pages = await _pageService.GetAsync();
+            return Ok(pages.Count);
+        }
+
+        // ----------------------------
         // GET ALL PAGES
         // GET: /api/pages
         // ----------------------------
