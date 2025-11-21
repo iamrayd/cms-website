@@ -2,81 +2,98 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth-guard';
 
 export const routes: Routes = [
-  // Auth routes (signin, signup) - using AuthLayoutComponent
+  // ============= AUTH LAYOUT =============
   {
     path: 'auth',
-    loadComponent: () => import('./components/auth-layout/auth-layout').then(m => m.AuthLayoutComponent),
+    loadComponent: () =>
+      import('./components/auth-layout/auth-layout').then(
+        m => m.AuthLayoutComponent
+      ),
     children: [
       {
         path: '',
         redirectTo: 'signin',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'signin',
-        loadComponent: () => import('./features/auth/signin/signin').then(m => m.SigninComponent)
+        loadComponent: () =>
+          import('./features/auth/signin/signin').then(m => m.SigninComponent),
       },
       {
         path: 'signup',
-        loadComponent: () => import('./features/auth/signup/signup').then(m => m.SignupComponent)
-      }
-    ]
+        loadComponent: () =>
+          import('./features/auth/signup/signup').then(m => m.SignupComponent),
+      },
+    ],
   },
-  
-  // Protected routes (post-login) - using MainLayoutComponent
+
+  // ============= MAIN LAYOUT (PROTECTED) =============
   {
     path: '',
-    loadComponent: () => import('./components/main-layout/main-layout').then(m => m.MainLayoutComponent),
+    loadComponent: () =>
+      import('./components/main-layout/main-layout').then(
+        m => m.MainLayoutComponent
+      ),
     canActivate: [AuthGuard],
     children: [
       {
         path: '',
         redirectTo: 'home',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
+
+      // ---- HOME (dashboard) ----
       {
         path: 'home',
-        loadComponent: () => import('./home/home').then(m => m.Home)
+        loadComponent: () => import('./home/home').then(m => m.Home),
       },
+
+      // ---- CONTENT (pages / posts / banners) ----
       {
         path: 'content',
-        loadComponent: () => import('./content/content').then(m => m.Content),
+        loadComponent: () =>
+          import('./content/content').then(m => m.Content),
         children: [
-          { path: '', redirectTo: 'pages', pathMatch: 'full' },
+          {
+            path: '',
+            redirectTo: 'pages',
+            pathMatch: 'full',
+          },
           {
             path: 'pages',
-            loadComponent: () => import('./content/pages/pages').then(m => m.PagesComponent)
+            loadComponent: () =>
+              import('./content/pages/pages').then(m => m.PagesComponent),
           },
           {
             path: 'posts',
-            loadComponent: () => import('./content/posts/post').then(m => m.PostsComponent)
+            loadComponent: () =>
+              import('./content/posts/post').then(m => m.PostsComponent),
           },
           {
             path: 'banners',
-            loadComponent: () => import('./content/banners/banner').then(m => m.BannersComponent)
+            loadComponent: () =>
+              import('./content/banners/banner').then(m => m.BannersComponent),
           },
-          {
-            path: 'content/posts',
-            loadComponent: () => import('./content/posts/post').then(m => m.PostsComponent)
-          },
-          {
-          path: 'content/banners',
-          loadComponent: () =>
-            import('./content/banners/banner').then(m => m.BannersComponent)
-        },
-          {
-          path: 'activity-log',
-          loadComponent: () => import('./activity-log/activity-log').then(m => m.ActivityLog)
-        }
-  ]
-},
+          // ❌ GIKUHA nato ang 'content/posts' ug 'content/banners'
+          // kay redundant & sayop ang path (magkaduha ang "content")
+        ],
+      },
 
-    ]
+      // ---- ACTIVITY LOG (separate menu, same level as Home) ----
+      {
+  path: 'activity-log',
+  loadComponent: () =>
+    import('./activity-log/activity-log').then(
+      m => m.ActivityLogComponent   // ⭐ CHANGED: sakto nga class name
+    ),
+},
+    ],
   },
-  
-  // Fallback route
+
+  // ============= FALLBACK =============
   {
     path: '**',
-    redirectTo: 'auth/signin'
-  }
+    redirectTo: 'auth/signin',
+  },
 ];
