@@ -1,0 +1,34 @@
+﻿using Microsoft.Extensions.Options;
+using MongoDB.Driver;
+using ProjectCms.Models;
+
+namespace ProjectCms.Services
+{
+    public class PostService
+    {
+        private readonly IMongoCollection<Post> _posts;
+
+        public PostService(IOptions<MongoDbSettings> options)
+        {
+            var client = new MongoClient(options.Value.ConnectionString);
+            var database = client.GetDatabase(options.Value.DatabaseName);
+
+            _posts = database.GetCollection<Post>("Posts");
+        }
+
+        public async Task<List<Post>> GetAsync() =>
+            await _posts.Find(_ => true).ToListAsync();
+
+        public async Task<Post?> GetAsync(string id) =>
+            await _posts.Find(x => x.Id == id).FirstOrDefaultAsync();
+
+        public async Task CreateAsync(Post post) =>
+            await _posts.InsertOneAsync(post);
+
+        public async Task UpdateAsync(string id, Post post) =>
+            await _posts.ReplaceOneAsync(x => x.Id == id, post);
+
+        public async Task RemoveAsync(string id) =>
+            await _posts.DeleteOneAsync(id);
+    }
+}
