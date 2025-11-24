@@ -63,9 +63,9 @@ namespace project_cms.services
             await _users.DeleteOneAsync(x => x.Id == id);
 
         // LOGIN: Authenticate user
-        public async Task<User?> AuthenticateAsync(string username, string password)
+        public async Task<User?> AuthenticateAsync(string email, string password)
         {
-            var user = await GetByUsernameAsync(username);
+            var user = await GetByEmailAsync(email);
 
             if (user == null || !VerifyPassword(password, user.PasswordHash))
                 return null;

@@ -110,10 +110,10 @@ namespace projectcms.controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserResponseDto>> Login([FromBody] LoginDto dto)
         {
-            if (string.IsNullOrWhiteSpace(dto.Username) || string.IsNullOrWhiteSpace(dto.Password))
+            if (string.IsNullOrWhiteSpace(dto.Email) || string.IsNullOrWhiteSpace(dto.Password))
                 return BadRequest(new { message = "Username and password are required" });
 
-            var user = await _userService.AuthenticateAsync(dto.Username, dto.Password);
+            var user = await _userService.AuthenticateAsync(dto.Email, dto.Password);
 
             if (user is null)
                 return Unauthorized(new { message = "Invalid username or password" });
