@@ -1,7 +1,6 @@
-using ProjectCms.Services;
+using project_cms.services;
 using ProjectCms.Api.Services;
 using ProjectCms.Models;
-using ProjectCms.Services;
 using ProjectCms.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,18 +13,19 @@ builder.Services.AddSwaggerGen();
 // 2. MongoDB settings
 builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDb"));
-builder.Services.AddSingleton<PageService>(); // Page Service
-builder.Services.AddSingleton<PostService>(); // Post Service
-builder.Services.AddSingleton<BannerService>(); //Banner Service
-builder.Services.AddHostedService<BannerExpiryWorker>(); //Banner Expirey
-builder.Services.AddSingleton<IActivityLogService, ActivityLogService>(); //Activity-log
-builder.Services.AddSingleton<ArchivedBannerService>(); //ArchivedBanner Service
 
+// 3. Register Services
+builder.Services.AddSingleton<PageService>();
+builder.Services.AddSingleton<PostService>();
+builder.Services.AddSingleton<BannerService>();
+builder.Services.AddSingleton<UserService>(); // ? NEW: User Service
+builder.Services.AddSingleton<IActivityLogService, ActivityLogService>();
+builder.Services.AddSingleton<ArchivedBannerService>();
 
+// 4. Background Services
+builder.Services.AddHostedService<BannerExpiryWorker>();
 
-
-
-// 3. CORS for Angular dev (http://localhost:4200)
+// 5. CORS for Angular dev (http://localhost:4200)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular",
@@ -40,20 +40,17 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// 4. Swagger in Development
+// 6. Swagger in Development
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// 5. Pipeline
+// 7. Pipeline
 app.UseHttpsRedirection();
-
-app.UseCors("AllowAngular");   // *** IMPORTANT: CORS before Authorization ***
-
+app.UseCors("AllowAngular");
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
